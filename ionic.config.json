@@ -1,0 +1,7 @@
+{
+  "name": "GBudget",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
