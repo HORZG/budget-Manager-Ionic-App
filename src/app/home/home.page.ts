@@ -11,14 +11,15 @@ export class HomePage {
   selectedOption !: string;
   depensess: any = [];
   dep = {};
+  totalDepenses: number;
 
 
 
 
   constructor(private serviceD: DepenseService,
-     private alertController : AlertController,
-      private modalController: ModalController) { 
-    
+    private alertController: AlertController,
+    private modalController: ModalController) {
+
   }
 
   onOptionChange(event: any) {
@@ -38,20 +39,21 @@ export class HomePage {
     let NewO = {
       Montant: Mont,
       note: note,
-      Category: cat
+      Category: cat,
+      conUser: localStorage.getItem('userId')
     }
 
     this.serviceD.ajouterDepense(NewO).subscribe({
       next: (response) => {
         console.log(response)
         this.allDepenses();
-        this.closeModal(); 
+        this.closeModal();
       },
       error: (error) => {
         console.log(error)
       }
     })
-    
+
   }
   async closeModal() {
     await this.modalController.dismiss();
@@ -60,56 +62,65 @@ export class HomePage {
   allDepenses() {
     this.depensess = [];
     this.serviceD.allDepenses().subscribe({
-      next: (response : Record<string,any>) => {
+      next: (response: Record<string, any>) => {
         for (const key in response) {
-          console.log(this.depensess);
-          this.depensess.push({ id: key, ...response[key] });
+          console.log(response[key].conUser);
+          if (response[key].conUser === localStorage.getItem("userId")) {
+            this.depensess.push({ id: key, ...response[key] });
+          }
         }
-        },
-        error: (error) => {
-          console.error(error);
+        this.totalDepenses = 0;
+        console.log(this.depensess);
+        for (let i = 0; i < this.depensess.length; i++) {
+          this.totalDepenses = this.totalDepenses + parseFloat(this.depensess[i].Montant);
+
         }
-      })
-  }
 
-
-
-/*update(itemId){
-this.serviceD.updateDepense(itemId).subscribe({
-  next : (response)=> {
-    console.log(response)
-  },
-  error : (error)=> {
-    console.log(error)
-  }
-})
-}*/
-
-async presentAlert(itemId) {
-  const alert = await this.alertController.create({
-    header: 'Confirm',
-    message: 'Etes vous sur de vouloir supprimer cette dépense ?',
-    buttons: [
-      'No',
-      {
-        text: 'Yes',
-        handler: () => {
-          this.serviceD.deleteDepense(itemId).subscribe({
-            next: (response) => {
-              this.allDepenses();
-            },
-            error: (err) => {
-              console.log(err);
-            },
-          });
-        },
       },
-    ],
-  });
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
 
-  await alert.present();
-  
-}
+
+
+  /*update(itemId){
+  this.serviceD.updateDepense(itemId).subscribe({
+    next : (response)=> {
+      console.log(response)
+    },
+    error : (error)=> {
+      console.log(error)
+    }
+  })
+  }*/
+
+  async presentAlert(itemId) {
+    const alert = await this.alertController.create({
+      header: 'Confirm',
+      message: 'Etes vous sur de vouloir supprimer cette dépense ?',
+      buttons: [
+        'No',
+        {
+          text: 'Yes',
+          handler: () => {
+            this.serviceD.deleteDepense(itemId).subscribe({
+              next: (response) => {
+                this.allDepenses();
+              },
+              error: (err) => {
+                console.log(err);
+              },
+            });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+
+  }
 
 
   ngOnInit() {

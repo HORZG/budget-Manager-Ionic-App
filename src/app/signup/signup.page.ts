@@ -2,6 +2,9 @@ import { Component, OnInit, signal } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { NgForm } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
+import * as CryptoJS from 'crypto-js';
+
+const password = 'your-password';
 
 @Component({
   selector: 'app-signup',
@@ -25,12 +28,15 @@ let  FirstName = SignUpForm.value.firstname
 let LastName = SignUpForm.value.lastname 
 let email = SignUpForm.value.email
 
+
     if (p1 === p2) {
+
+const hashedPassword = CryptoJS.SHA256(p1).toString(); console.log('Hashed Password:', hashedPassword);
     let newUser = {
     Firstname : FirstName,
     Lastname : LastName,
     Email : email,
-    Password : p1,
+    Password : hashedPassword,
     }
     const userPayload = { ...newUser };
     console.log(userPayload)

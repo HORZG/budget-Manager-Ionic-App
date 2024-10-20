@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { NgFor } from '@angular/common';
 import { NgForm } from '@angular/forms';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login',
@@ -10,37 +10,52 @@ import { Route, Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-allUsersTab = [];
-foundUser = {};
-  constructor(private userService : UserService, private router : Router) { }
+  allUsersTab = [];
+  foundUser: any = {};
+  connectedUser: string = '';
 
-  ngOnInit() {
-  }
+  constructor(private userService: UserService, private router: Router) {}
 
-  Login(loginForm:NgForm) {
-    
+  ngOnInit() {}
 
-let login = loginForm.value.email;
-let pwd = loginForm.value.password;
-this.userService.allUsers().subscribe({
-  next : (response)=> {
-    this.allUsersTab = [];
-    for (let key in response ) {
-      this.allUsersTab.push({ id: key, ...response[key] });
-      
-    }
-    console.log(this.allUsersTab)
-  },
-  error : (error)=> {
-    console.log(error)
-  }
-});
- this.foundUser = this.allUsersTab.find(u => u.Email === login && u.Password === pwd)
- if (this.foundUser) {
-  console.log('User found:', this.foundUser);
-  this.router.navigate(['/home']); 
-} else {
-  console.log('User not found or incorrect password');
-}
+  Login(loginForm: NgForm) {
+    const login = loginForm.value.email;
+    const pwd = loginForm.value.password;
+
+    const hashedPassword = CryptoJS.SHA256(pwd).toString();
+
+    this.userService.allUsers().subscribe({
+      next: (response) => {
+        
+        this.allUsersTab = [];
+        for (let key in response) {
+          this.allUsersTab.push({ id: key, ...response[key] });
+        }
+
+        console.log(this.allUsersTab);
+
+        
+        this.foundUser = this.allUsersTab.find(
+          (u) => u.Email === login && u.Password === hashedPassword
+        );
+
+       
+        if (this.foundUser) {
+          this.connectedUser = this.foundUser.id;
+          console.log('User found:', this.foundUser);
+
+          
+          localStorage.setItem('userId', this.connectedUser);
+
+          
+          this.router.navigate(['/home']);
+        } else {
+          console.log('User not found or incorrect password');
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }

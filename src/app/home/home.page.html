@@ -12,7 +12,7 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Historique dépenses</ion-card-title>
+      <ion-card-title style="text-align: center;">Historique dépenses</ion-card-title>
 
     </ion-card-header>
 
@@ -31,7 +31,9 @@
         <ion-icon slot = "end" name="hammer-outline" ></ion-icon>
         <ion-icon slot = "end" name="trash-outline" (click)="presentAlert(item.id)" ></ion-icon>
       </ion-item>}
-     
+      <ion-item>
+     <ion-label color="danger" style="text-align: center;font-size: larger;"><i><b> Total Dépenses = {{totalDepenses}} TND</b></i></ion-label>
+    </ion-item>
     </ion-list>
 
 
@@ -94,10 +96,12 @@
               </ion-item>
 
             </ion-radio-group>
-            <ion-button type="submit">Add </ion-button>
+            <ion-button type="submit" >Add </ion-button>
             
           </ion-list>
         </form>
+        
+        
         </ion-content>
       </ng-template>
     </ion-modal>
