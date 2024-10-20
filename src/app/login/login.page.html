@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title> <ion-chip color="success" class="chip-container">Wolcome!</ion-chip> </ion-card-title>
+      
+    
+    </ion-card-header>
+   
+   
+        <ion-card-content>
+           <form #loginForm="ngForm" (ngSubmit)="Login(loginForm)">
+
+           
+         <ion-item>
+          <ion-input  placeholder="E-mail" type="E-mail" ngModel name="email"></ion-input>
+          
+         </ion-item>
+         <ion-item>
+          <ion-input placeholder="Type your password" type="password" ngModel name="password"></ion-input>
+         </ion-item>
+         
+         <ion-button class="chip-container" type="submit">Login</ion-button>
+        </form>
+        </ion-card-content>
+     
+  </ion-card>
+</ion-content>

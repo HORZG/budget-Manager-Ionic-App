@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+
+  <ion-toolbar>
+    <ion-title>Header Toolbar</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title> <ion-chip color="success" class="chip-container">Sign Up!</ion-chip> </ion-card-title>
+      
+    
+    </ion-card-header>
+   
+   
+        <ion-card-content>
+           <form #SignUpForm="ngForm" (ngSubmit)="SignUp(SignUpForm)">
+
+           <ion-item>
+            <ion-input placeholder="Firstname" ngModel name="firstname" type="text"></ion-input>
+            <ion-input placeholder="Lastname" ngModel name="lastname" type="text"></ion-input>
+           </ion-item>
+           
+         <ion-item>
+          <ion-input  placeholder="E-mail" ngModel name="email" type="E-mail"></ion-input>
+          
+         </ion-item>
+         <ion-item>
+          <ion-input placeholder="Type your password" ngModel name="password1"  type="password"></ion-input>
+         </ion-item>
+         <ion-item>
+          <ion-input placeholder="re-type your password" ngModel name="password2" type="password"></ion-input>
+         </ion-item>
+         <ion-button class="chip-container" type="submit">Sign Up</ion-button>
+        </form>
+        </ion-card-content>
+     
+  </ion-card>
+</ion-content>
