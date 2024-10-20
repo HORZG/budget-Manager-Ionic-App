@@ -14,6 +14,10 @@ export class UserService {
     return this.http.post(this.userURL,newUser)
   }
 
+getUserById(userId){
+return this.http.get(`https://gbudget-f4cef-default-rtdb.firebaseio.com/${userId}/users.json`);
+
+}
 
   Login(user){
 return this.http.post(this.userURL+"/user", user)
