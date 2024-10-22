@@ -16,6 +16,9 @@ export class LoginPage implements OnInit {
 
   constructor(private userService: UserService, private router: Router) {}
 
+  register(){
+    this.router.navigate(['/signup']);
+  }
   ngOnInit() {}
 
   Login(loginForm: NgForm) {

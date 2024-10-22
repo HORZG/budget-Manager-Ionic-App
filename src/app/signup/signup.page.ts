@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { NgForm } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import * as CryptoJS from 'crypto-js';
+import { Router } from '@angular/router';
 
 const password = 'your-password';
 
@@ -13,7 +14,7 @@ const password = 'your-password';
 })
 export class SignupPage implements OnInit {
 
-  constructor(private userService : UserService) { }
+  constructor(private userService : UserService, private router : Router) { }
 
   ngOnInit() {
   }
@@ -51,6 +52,7 @@ const hashedPassword = CryptoJS.SHA256(p1).toString(); console.log('Hashed Passw
     })
     alert('Registred')
     SignUpForm.reset();
+    this.router.navigate(['/login']);
   }
   else {
     alert('Password doesn t match');

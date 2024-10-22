@@ -123,6 +123,12 @@ export class HomePage {
     await alert.present();
   }
 
+  logout(){
+    if (this.connectedUser) {
+      localStorage.clear();
+    }
+  }
+
   ngOnInit() {
     const userId = localStorage.getItem('userId');
     this.getUserById(userId);
